@@ -83,6 +83,40 @@ class DOMNodeCollection {
     }
     });
   }
+
+  children() {
+    const arr = this.elements;
+    let result = [];
+
+    arr.forEach(el => {
+      result = result.concat(el.children);
+    });
+
+    return new DOMNodeCollection(result);
+  }
+
+  parent() {
+    return this.elements[0].parentNode;
+  }
+
+  find(selector) {
+    let result = [];
+    this.elements.forEach(el => {
+      const list = el.querySelectorAll(selector);
+      const arr = Array.prototype.slice.call(list);
+      result = result.concat(arr);
+    });
+    return new DOMNodeCollection(result);
+  }
+
+  // remove() {
+  //   let arr = this.elements.slice();
+  //   arr.forEach(el => {
+  //     const temp = new DOMNodeCollection(el);
+  //     temp.empty();
+  //   });
+  //   this.elements = [];
+  // }
 }
 
 module.exports = DOMNodeCollection;
